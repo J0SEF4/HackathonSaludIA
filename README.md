@@ -1,4 +1,4 @@
-# CardioHealth Monitoring System 🫀
+# CardioHealth Monitoring System ❤️
 
 Un prototipo funcional para el monitoreo de salud cardiovascular que calcula puntajes de prioridad, identifica pacientes “perdidos” y genera indicadores (KPIs) para equipos de salud.
 
