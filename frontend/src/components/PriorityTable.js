@@ -3,17 +3,17 @@ import './PriorityTable.css';
 
 function PriorityTable({ data }) {
   const getRiskLevel = (score) => {
-    if (score > 70) return { text: 'High', class: 'high' };
-    if (score >= 40) return { text: 'Medium', class: 'medium' };
-    return { text: 'Low', class: 'low' };
+    if (score > 70) return { text: 'Alto', class: 'high' };
+    if (score >= 40) return { text: 'Medio', class: 'medium' };
+    return { text: 'Bajo', class: 'low' };
   };
 
   return (
     <div className="table-container">
       <div className="table-header">
-        <h2>Priority Patients (Sorted by Risk Score)</h2>
+        <h2>Pacientes Prioritarios (Ordenados por Puntaje de Riesgo)</h2>
         <p className="table-description">
-          Total: {data.total_patients} patients | Score range: 0-100
+          Total: {data.total_patients} pacientes | Rango de puntaje: 0-100
         </p>
       </div>
       
@@ -21,17 +21,17 @@ function PriorityTable({ data }) {
         <table className="priority-table">
           <thead>
             <tr>
-              <th>Patient ID</th>
-              <th>Name</th>
-              <th>Age</th>
-              <th>Gender</th>
-              <th>BP (S/D)</th>
-              <th>Cholesterol</th>
-              <th>Glucose</th>
-              <th>Risk Factors</th>
-              <th>Compliance</th>
-              <th>Priority Score</th>
-              <th>Risk Level</th>
+              <th>ID Paciente</th>
+              <th>Nombre</th>
+              <th>Edad</th>
+              <th>Sexo</th>
+              <th>PA (S/D)</th>
+              <th>Colesterol</th>
+              <th>Glucosa</th>
+              <th>Factores de Riesgo</th>
+              <th>Adherencia</th>
+              <th>Puntaje de Prioridad</th>
+              <th>Nivel de Riesgo</th>
             </tr>
           </thead>
           <tbody>
@@ -40,7 +40,7 @@ function PriorityTable({ data }) {
               const riskFactors = [];
               if (patient.diabetes === 'Yes') riskFactors.push('DM');
               if (patient.hypertension === 'Yes') riskFactors.push('HTN');
-              if (patient.smoker === 'Yes') riskFactors.push('Smoker');
+              if (patient.smoker === 'Yes') riskFactors.push('Fumador');
               
               return (
                 <tr key={patient.patient_id}>
@@ -59,7 +59,7 @@ function PriorityTable({ data }) {
                         ))}
                       </div>
                     ) : (
-                      <span className="none">None</span>
+                      <span className="none">Ninguno</span>
                     )}
                   </td>
                   <td>

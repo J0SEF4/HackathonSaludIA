@@ -5,10 +5,10 @@ function LostPatientsTable({ data }) {
   return (
     <div className="table-container">
       <div className="table-header">
-        <h2>Lost Patients</h2>
+        <h2>Pacientes Perdidos</h2>
         <p className="table-description">
-          Total: {data.total_lost} patients lost to follow-up | Thresholds: Control &gt;{data.thresholds.control_visit}, 
-          Medication &gt;{data.thresholds.medication_pickup}, Exams &gt;{data.thresholds.exam}
+          Total: {data.total_lost} pacientes perdidos en seguimiento | Umbrales: Control &gt;{data.thresholds.control_visit}, 
+          Medicamento &gt;{data.thresholds.medication_pickup}, Exámenes &gt;{data.thresholds.exam}
         </p>
       </div>
       
@@ -16,17 +16,17 @@ function LostPatientsTable({ data }) {
         <table className="lost-table">
           <thead>
             <tr>
-              <th>Patient ID</th>
-              <th>Name</th>
-              <th>Age</th>
-              <th>Last Control</th>
-              <th>Days Since Control</th>
-              <th>Last Medication</th>
-              <th>Days Since Med</th>
-              <th>Last Exam</th>
-              <th>Days Since Exam</th>
-              <th>Risk Factors</th>
-              <th>Lost Reasons</th>
+              <th>ID Paciente</th>
+              <th>Nombre</th>
+              <th>Edad</th>
+              <th>Último Control</th>
+              <th>Días desde Control</th>
+              <th>Último Medicamento</th>
+              <th>Días desde Med</th>
+              <th>Último Examen</th>
+              <th>Días desde Examen</th>
+              <th>Factores de Riesgo</th>
+              <th>Razones de Pérdida</th>
             </tr>
           </thead>
           <tbody>
@@ -34,7 +34,7 @@ function LostPatientsTable({ data }) {
               const riskFactors = [];
               if (patient.risk_factors.diabetes === 'Yes') riskFactors.push('DM');
               if (patient.risk_factors.hypertension === 'Yes') riskFactors.push('HTN');
-              if (patient.risk_factors.smoker === 'Yes') riskFactors.push('Smoker');
+              if (patient.risk_factors.smoker === 'Yes') riskFactors.push('Fumador');
               
               return (
                 <tr key={patient.patient_id} className={patient.lost_reasons.length >= 3 ? 'critical' : ''}>
@@ -67,7 +67,7 @@ function LostPatientsTable({ data }) {
                         ))}
                       </div>
                     ) : (
-                      <span className="none">None</span>
+                      <span className="none">Ninguno</span>
                     )}
                   </td>
                   <td>

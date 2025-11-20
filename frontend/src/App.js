@@ -34,7 +34,7 @@ function App() {
       setLostData(lostRes.data);
       setAuditData(auditRes.data);
     } catch (err) {
-      setError('Failed to load data. Make sure the backend server is running on port 8000.');
+      setError('Error al cargar los datos. Asegúrate de que el servidor backend esté ejecutándose en el puerto 8000.');
       console.error('Error fetching data:', err);
     } finally {
       setLoading(false);
@@ -46,7 +46,7 @@ function App() {
       <div className="app">
         <div className="loading">
           <div className="spinner"></div>
-          <p>Loading patient data...</p>
+          <p>Cargando datos de pacientes...</p>
         </div>
       </div>
     );
@@ -58,7 +58,7 @@ function App() {
         <div className="error">
           <h2>⚠️ Error</h2>
           <p>{error}</p>
-          <button onClick={fetchAllData} className="retry-btn">Retry</button>
+          <button onClick={fetchAllData} className="retry-btn">Reintentar</button>
         </div>
       </div>
     );
@@ -75,9 +75,9 @@ function App() {
                 alt="heart icon"
                 className="header-icon-inline"
               />
-              CardioHealth Monitoring System
+              CardioHealth Sistema de Monitoreo
             </h1>
-            <p className="subtitle">Cardiovascular Patient Management Dashboard</p>
+            <p className="subtitle">Panel de Gestión de Pacientes Cardiovasculares</p>
           </div>
         </div>
       </header>
@@ -85,29 +85,29 @@ function App() {
       {auditData && (
         <div className="kpi-section">
           <KPICard
-            title="Total Patients"
+            title="Total de Pacientes"
             value={auditData.total_patients}
             icon="👥"
             color="#4a90e2"
           />
           <KPICard
-            title="High Risk"
+            title="Alto Riesgo"
             value={auditData.high_risk_patients.count}
             subtitle={`${auditData.high_risk_patients.percentage}%`}
             icon="⚠️"
             color="#e74c3c"
           />
           <KPICard
-            title="Lost Patients"
+            title="Pacientes Perdidos"
             value={auditData.lost_patients.count}
             subtitle={`${auditData.lost_patients.percentage}%`}
             icon="🔍"
             color="#f39c12"
           />
           <KPICard
-            title="Avg Risk Score"
+            title="Puntaje de Riesgo Promedio"
             value={auditData.average_risk_score}
-            subtitle="out of 100"
+            subtitle="de 100"
             icon="📊"
             color="#9b59b6"
           />
@@ -119,19 +119,19 @@ function App() {
           className={`tab ${activeTab === 'priority' ? 'active' : ''}`}
           onClick={() => setActiveTab('priority')}
         >
-          Priority Patients
+          Pacientes Prioritarios
         </button>
         <button
           className={`tab ${activeTab === 'lost' ? 'active' : ''}`}
           onClick={() => setActiveTab('lost')}
         >
-          Lost Patients ({lostData?.total_lost || 0})
+          Pacientes Perdidos ({lostData?.total_lost || 0})
         </button>
         <button
           className={`tab ${activeTab === 'audit' ? 'active' : ''}`}
           onClick={() => setActiveTab('audit')}
         >
-          Audit KPIs
+          KPIs de Auditoría
         </button>
       </div>
 
@@ -148,21 +148,21 @@ function App() {
           <div className="audit-section">
             <div className="audit-grid">
               <div className="audit-card">
-                <h3>Compliance Metrics</h3>
+                <h3>Métricas de Cumplimiento</h3>
                 <div className="metric-row">
-                  <span>Control Visits (≤180 days)</span>
+                  <span>Visitas de Control (≤180 días)</span>
                   <span className="metric-value">
                     {auditData.compliance.control_visits.percentage}%
                   </span>
                 </div>
                 <div className="metric-row">
-                  <span>Medication Pickup (≤90 days)</span>
+                  <span>Retiro de Medicamentos (≤90 días)</span>
                   <span className="metric-value">
                     {auditData.compliance.medication_pickup.percentage}%
                   </span>
                 </div>
                 <div className="metric-row">
-                  <span>Exams (≤365 days)</span>
+                  <span>Exámenes (≤365 días)</span>
                   <span className="metric-value">
                     {auditData.compliance.exams.percentage}%
                   </span>
@@ -170,7 +170,7 @@ function App() {
               </div>
 
               <div className="audit-card">
-                <h3>Risk Factors Distribution</h3>
+                <h3>Distribución de Factores de Riesgo</h3>
                 <div className="metric-row">
                   <span>Diabetes</span>
                   <span className="metric-value">
@@ -178,13 +178,13 @@ function App() {
                   </span>
                 </div>
                 <div className="metric-row">
-                  <span>Hypertension</span>
+                  <span>Hipertensión</span>
                   <span className="metric-value">
                     {auditData.risk_factors.hypertension.count} ({auditData.risk_factors.hypertension.percentage}%)
                   </span>
                 </div>
                 <div className="metric-row">
-                  <span>Smokers</span>
+                  <span>Fumadores</span>
                   <span className="metric-value">
                     {auditData.risk_factors.smokers.count} ({auditData.risk_factors.smokers.percentage}%)
                   </span>
@@ -192,15 +192,15 @@ function App() {
               </div>
 
               <div className="audit-card">
-                <h3>Previous Events</h3>
+                <h3>Eventos Previos</h3>
                 <div className="metric-row">
-                  <span>Myocardial Infarction</span>
+                  <span>Infarto de Miocardio</span>
                   <span className="metric-value">
                     {auditData.previous_events.myocardial_infarction.count} ({auditData.previous_events.myocardial_infarction.percentage}%)
                   </span>
                 </div>
                 <div className="metric-row">
-                  <span>Stroke</span>
+                  <span>ACV</span>
                   <span className="metric-value">
                     {auditData.previous_events.stroke.count} ({auditData.previous_events.stroke.percentage}%)
                   </span>
@@ -208,21 +208,21 @@ function App() {
               </div>
 
               <div className="audit-card">
-                <h3>Risk Score Distribution</h3>
+                <h3>Distribución de Puntaje de Riesgo</h3>
                 <div className="metric-row">
-                  <span>Low Risk (&lt;40)</span>
+                  <span>Riesgo Bajo (&lt;40)</span>
                   <span className="metric-value">
                     {auditData.score_distribution.low_risk}
                   </span>
                 </div>
                 <div className="metric-row">
-                  <span>Medium Risk (40-70)</span>
+                  <span>Riesgo Medio (40-70)</span>
                   <span className="metric-value">
                     {auditData.score_distribution.medium_risk}
                   </span>
                 </div>
                 <div className="metric-row">
-                  <span>High Risk (&gt;70)</span>
+                  <span>Riesgo Alto (&gt;70)</span>
                   <span className="metric-value">
                     {auditData.score_distribution.high_risk}
                   </span>
