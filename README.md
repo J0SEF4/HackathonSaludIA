@@ -68,7 +68,7 @@ cd backend
 2. Create virtual environment (recommended):
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+venv\Scripts\activate
 ```
 
 3. Install dependencies:
@@ -91,8 +91,8 @@ npm install
 ### Generate Dummy Data
 
 ```bash
-cd data
-python generate_data.py
+cd ..
+python data\generate_data.py
 ```
 
 This generates 100 patient records with realistic cardiovascular data.
@@ -103,6 +103,9 @@ This generates 100 patient records with realistic cardiovascular data.
 
 ```bash
 cd backend
+venv\Scripts\activate
+uvicorn main:app --reload #Run FastAPI with Uvicorn:
+
 python main.py
 ```
 
