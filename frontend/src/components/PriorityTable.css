@@ -1,0 +1,134 @@
+.table-container {
+  background: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-header {
+  margin-bottom: 1.5rem;
+}
+
+.table-header h2 {
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.table-description {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.priority-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.priority-table thead {
+  background-color: #667eea;
+  color: white;
+}
+
+.priority-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.priority-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.priority-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.patient-id {
+  font-family: monospace;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.patient-name {
+  font-weight: 500;
+}
+
+.risk-factors {
+  display: flex;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.risk-badge {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.none {
+  color: #999;
+  font-style: italic;
+}
+
+.compliance {
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: inline-block;
+}
+
+.compliance.high {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.compliance.medium {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.compliance.low {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.score {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #667eea;
+}
+
+.risk-level {
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  display: inline-block;
+  text-transform: uppercase;
+}
+
+.risk-level.high {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.risk-level.medium {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.risk-level.low {
+  background-color: #d4edda;
+  color: #155724;
+}

@@ -1,0 +1,55 @@
+.lost-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.lost-table thead {
+  background-color: #f39c12;
+  color: white;
+}
+
+.lost-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.lost-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.lost-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.lost-table tbody tr.critical {
+  background-color: #fff5f5;
+}
+
+.lost-table tbody tr.critical:hover {
+  background-color: #ffe5e5;
+}
+
+.warning {
+  color: #e74c3c;
+  font-weight: bold;
+}
+
+.lost-reasons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.reason-badge {
+  background-color: #fee;
+  color: #c00;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-left: 3px solid #e74c3c;
+}
