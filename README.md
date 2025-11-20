@@ -57,9 +57,9 @@ Puntaje máximo: 100 puntos
 ### Requisitos Previos
 - Python 3.8+
 - Node.js 14+
-- npm or yarn
+- npm o yarn
 
-### Backend Setup
+### Configuración del Backend
 
 1. Ir a la carpeta backend:
 ```bash
@@ -75,7 +75,7 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Frontend Setup
+### Configuración del Frontend
 
 1. Ir a la carpeta frontend:
 ```bash
@@ -100,7 +100,7 @@ Esto genera 100 registros de pacientes con datos cardiovasculares realistas.
 ```bash
 cd backend
 venv\Scripts\activate
-uvicorn main:app --reload #Run FastAPI with Uvicorn:
+uvicorn main:app --reload #Ejecutar FastAPI con Uvicorn:
 
 python main.py
 ```
@@ -139,7 +139,7 @@ Retorna pacientes ordenados por puntaje de riesgo cardiovascular.
   ],
   "score_info": {
     "max_score": 100,
-    "description": "Higher scores indicate higher cardiovascular risk"
+    "description": "Puntajes más altos indican mayor riesgo cardiovascular"
   }
 }
 ```
@@ -159,16 +159,16 @@ Identifica pacientes “perdidos” con detalles de brechas.
       "days_since_medication": 120,
       "days_since_exam": 400,
       "lost_reasons": [
-        "No control visit in 245 days",
-        "No medication pickup in 120 days",
-        "Missing exams (400 days)"
+        "Sin visita de control en 245 días",
+        "Sin retiro de medicamentos en 120 días",
+        "Exámenes pendientes (400 días)"
       ]
     }
   ],
   "thresholds": {
-    "control_visit": "180 days",
-    "medication_pickup": "90 days",
-    "exam": "365 days"
+    "control_visit": "180 días",
+    "medication_pickup": "90 días",
+    "exam": "365 días"
   }
 }
 ```
@@ -245,8 +245,8 @@ Devuelve KPIs de auditoría cardiovascular.
 - CSS3
 
 **Data:**
-- CSV format
-- Python data generation
+- Formato CSV
+- Generación de datos con Python
 
 ## Mejoras Futuras
 - Modelo ML para predicción de riesgo
@@ -256,10 +256,10 @@ Devuelve KPIs de auditoría cardiovascular.
 - Integración con sistemas clínicos (EHR)
 - Análisis de tendencias históricas
 
-## License
+## Licencia
 
 MIT License – Construido para Hackathon SaludIA
 
-## Contributors
+## Contribuidores
 
 Desarrollado con ❤️ para mejorar los resultados en salud cardiovascular.

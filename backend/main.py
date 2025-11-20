@@ -6,9 +6,9 @@ import pandas as pd
 from datetime import datetime, timedelta
 import os
 
-app = FastAPI(title="Cardiovascular Health Monitoring API")
+app = FastAPI(title="API de Monitoreo de Salud Cardiovascular")
 
-# CORS middleware for React frontend
+# Middleware CORS para frontend React
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -17,25 +17,25 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Path to CSV data
+# Ruta al archivo CSV de datos
 DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "patients_data.csv")
 
 def load_patient_data():
-    """Load patient data from CSV"""
+    """Cargar datos de pacientes desde CSV"""
     try:
         df = pd.read_csv(DATA_PATH)
         return df
     except FileNotFoundError:
-        raise HTTPException(status_code=500, detail="Patient data file not found")
+        raise HTTPException(status_code=500, detail="Archivo de datos de pacientes no encontrado")
 
 def calculate_priority_score(row):
     """
-    Calculate cardiovascular priority score based on clinical parameters and risk factors.
-    Score ranges from 0-100, higher means higher priority.
+    Calcular puntaje de prioridad cardiovascular basado en parámetros clínicos y factores de riesgo.
+    El puntaje varía de 0-100, mayor puntaje significa mayor prioridad.
     """
     score = 0
     
-    # Age factor (0-15 points)
+    # Factor edad (0-15 puntos)
     age = row['age']
     if age >= 75:
         score += 15
@@ -44,7 +44,7 @@ def calculate_priority_score(row):
     elif age >= 55:
         score += 5
     
-    # Blood pressure (0-20 points)
+    # Presión arterial (0-20 puntos)
     systolic = row['systolic_bp']
     diastolic = row['diastolic_bp']
     if systolic >= 160 or diastolic >= 100:
@@ -54,7 +54,7 @@ def calculate_priority_score(row):
     elif systolic >= 130 or diastolic >= 80:
         score += 5
     
-    # Cholesterol (0-15 points)
+    # Colesterol (0-15 puntos)
     cholesterol = row['cholesterol']
     ldl = row['ldl']
     if cholesterol >= 240 or ldl >= 160:
@@ -64,7 +64,7 @@ def calculate_priority_score(row):
     elif cholesterol >= 180 or ldl >= 100:
         score += 5
     
-    # Glucose (0-15 points)
+    # Glucosa (0-15 puntos)
     glucose = row['glucose']
     if glucose >= 200:
         score += 15
@@ -73,7 +73,7 @@ def calculate_priority_score(row):
     elif glucose >= 100:
         score += 5
     
-    # BMI (0-10 points)
+    # IMC (0-10 puntos)
     bmi = row['bmi']
     if bmi >= 35:
         score += 10
@@ -82,7 +82,7 @@ def calculate_priority_score(row):
     elif bmi >= 25:
         score += 3
     
-    # Risk factors (0-25 points)
+    # Factores de riesgo (0-25 puntos)
     if row['diabetes'] == 'Yes':
         score += 10
     if row['hypertension'] == 'Yes':
@@ -90,23 +90,23 @@ def calculate_priority_score(row):
     if row['smoker'] == 'Yes':
         score += 7
     
-    # Previous events (0-15 points)
+    # Eventos previos (0-15 puntos)
     if row['previous_mi'] == 'Yes':
         score += 10
     if row['previous_stroke'] == 'Yes':
         score += 10
     
-    # Medication compliance (0-10 points penalty for poor compliance)
+    # Adherencia a medicamentos (0-10 puntos de penalización por baja adherencia)
     if row['medication_compliance'] == 'Low':
         score += 10
     elif row['medication_compliance'] == 'Medium':
         score += 5
     
-    # Cap at 100
+    # Límite máximo de 100
     return min(score, 100)
 
 def days_since_date(date_str):
-    """Calculate days since a given date"""
+    """Calcular días desde una fecha dada"""
     try:
         date = datetime.strptime(date_str, "%Y-%m-%d")
         return (datetime.now() - date).days
@@ -115,10 +115,10 @@ def days_since_date(date_str):
 
 def is_lost_patient(row):
     """
-    Determine if a patient is "lost" based on:
-    - No control visit in >180 days
-    - No medication pickup in >90 days
-    - Missing exams (>365 days since last exam)
+    Determinar si un paciente está "perdido" basado en:
+    - Sin visita de control en >180 días
+    - Sin retiro de medicamentos en >90 días
+    - Exámenes pendientes (>365 días desde el último examen)
     """
     days_since_control = days_since_date(row['last_control'])
     days_since_medication = days_since_date(row['last_medication'])
@@ -127,43 +127,43 @@ def is_lost_patient(row):
     lost_reasons = []
     
     if days_since_control > 180:
-        lost_reasons.append(f"No control visit in {days_since_control} days")
+        lost_reasons.append(f"Sin visita de control en {days_since_control} días")
     
     if days_since_medication > 90:
-        lost_reasons.append(f"No medication pickup in {days_since_medication} days")
+        lost_reasons.append(f"Sin retiro de medicamentos en {days_since_medication} días")
     
     if days_since_exam > 365:
-        lost_reasons.append(f"Missing exams ({days_since_exam} days)")
+        lost_reasons.append(f"Exámenes pendientes ({days_since_exam} días)")
     
     return len(lost_reasons) > 0, lost_reasons
 
 @app.get("/")
 async def root():
-    """Root endpoint"""
+    """Endpoint raíz"""
     return {
-        "message": "Cardiovascular Health Monitoring API",
+        "message": "API de Monitoreo de Salud Cardiovascular",
         "endpoints": {
-            "/priority": "Get priority-sorted patients with cardiovascular risk scores",
-            "/lost": "Get list of lost patients",
-            "/audit": "Get audit KPIs"
+            "/priority": "Obtener pacientes ordenados por prioridad con puntajes de riesgo cardiovascular",
+            "/lost": "Obtener lista de pacientes perdidos",
+            "/audit": "Obtener KPIs de auditoría"
         }
     }
 
 @app.get("/priority")
 async def get_priority_patients(limit: Optional[int] = None):
     """
-    Calculate and return patients sorted by cardiovascular priority score.
-    Higher scores indicate higher priority for intervention.
+    Calcular y retornar pacientes ordenados por puntaje de prioridad cardiovascular.
+    Puntajes más altos indican mayor prioridad para intervención.
     """
     df = load_patient_data()
     
-    # Calculate priority score for each patient
+    # Calcular puntaje de prioridad para cada paciente
     df['priority_score'] = df.apply(calculate_priority_score, axis=1)
     
-    # Sort by priority score (highest first)
+    # Ordenar por puntaje de prioridad (mayor primero)
     df_sorted = df.sort_values('priority_score', ascending=False)
     
-    # Select relevant columns
+    # Seleccionar columnas relevantes
     result_df = df_sorted[[
         'patient_id', 'name', 'age', 'gender',
         'systolic_bp', 'diastolic_bp', 'cholesterol', 'glucose',
@@ -181,17 +181,17 @@ async def get_priority_patients(limit: Optional[int] = None):
         "patients": patients,
         "score_info": {
             "max_score": 100,
-            "description": "Higher scores indicate higher cardiovascular risk and priority for intervention"
+            "description": "Puntajes más altos indican mayor riesgo cardiovascular y prioridad para intervención"
         }
     }
 
 @app.get("/lost")
 async def get_lost_patients():
     """
-    Identify and return patients who are "lost" based on:
-    - No control visit in >180 days
-    - No medication pickup in >90 days
-    - Missing exams (>365 days since last exam)
+    Identificar y retornar pacientes que están "perdidos" basado en:
+    - Sin visita de control en >180 días
+    - Sin retiro de medicamentos en >90 días
+    - Exámenes pendientes (>365 días desde el último examen)
     """
     df = load_patient_data()
     
@@ -219,37 +219,37 @@ async def get_lost_patients():
                 }
             })
     
-    # Sort by number of reasons (most critical first)
+    # Ordenar por número de razones (más críticos primero)
     lost_patients.sort(key=lambda x: len(x['lost_reasons']), reverse=True)
     
     return {
         "total_lost": len(lost_patients),
         "patients": lost_patients,
         "thresholds": {
-            "control_visit": "180 days",
-            "medication_pickup": "90 days",
-            "exam": "365 days"
+            "control_visit": "180 días",
+            "medication_pickup": "90 días",
+            "exam": "365 días"
         }
     }
 
 @app.get("/audit")
 async def get_audit_kpis():
     """
-    Generate audit KPIs for cardiovascular health program:
-    - Total patients
-    - High risk patients (score > 70)
-    - Lost patients count and percentage
-    - Control compliance
-    - Medication compliance
-    - Exam compliance
-    - Average risk score
+    Generar KPIs de auditoría para programa de salud cardiovascular:
+    - Total de pacientes
+    - Pacientes de alto riesgo (puntaje > 70)
+    - Cantidad y porcentaje de pacientes perdidos
+    - Cumplimiento de controles
+    - Cumplimiento de medicamentos
+    - Cumplimiento de exámenes
+    - Puntaje promedio de riesgo
     """
     df = load_patient_data()
     
-    # Calculate priority scores
+    # Calcular puntajes de prioridad
     df['priority_score'] = df.apply(calculate_priority_score, axis=1)
     
-    # Calculate lost patients
+    # Calcular pacientes perdidos
     lost_count = 0
     control_compliant = 0
     medication_compliant = 0
@@ -260,7 +260,7 @@ async def get_audit_kpis():
         if is_lost:
             lost_count += 1
         
-        # Compliance checks
+        # Verificar cumplimiento
         if days_since_date(row['last_control']) <= 180:
             control_compliant += 1
         
@@ -273,12 +273,12 @@ async def get_audit_kpis():
     total_patients = len(df)
     high_risk_count = len(df[df['priority_score'] > 70])
     
-    # Risk factor distribution
+    # Distribución de factores de riesgo
     diabetes_count = len(df[df['diabetes'] == 'Yes'])
     hypertension_count = len(df[df['hypertension'] == 'Yes'])
     smoker_count = len(df[df['smoker'] == 'Yes'])
     
-    # Previous events
+    # Eventos previos
     previous_mi_count = len(df[df['previous_mi'] == 'Yes'])
     previous_stroke_count = len(df[df['previous_stroke'] == 'Yes'])
     
