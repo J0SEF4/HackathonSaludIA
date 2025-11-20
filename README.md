@@ -1,19 +1,22 @@
 # CardioHealth Monitoring System 🫀
 
-A functional prototype for cardiovascular health monitoring that tracks patient priority scores, identifies lost patients, and generates audit KPIs for healthcare providers.
+Un prototipo funcional para el monitoreo de salud cardiovascular que calcula puntajes de prioridad, identifica pacientes “perdidos” y genera indicadores (KPIs) para equipos de salud.
 
-## Features
+## Características
 
-- **Priority Scoring**: Calculates cardiovascular risk scores (0-100) based on clinical parameters and risk factors
-- **Lost Patient Detection**: Identifies patients with gaps in care:
-  - No control visit in >180 days
-  - No medication pickup in >90 days  
-  - Missing exams (>365 days)
-- **Audit KPIs**: Comprehensive dashboard with compliance metrics, risk factor distribution, and score analytics
-- **FastAPI Backend**: RESTful API with three endpoints (`/priority`, `/lost`, `/audit`)
-- **React Dashboard**: Interactive UI with tables, KPI cards, and real-time data visualization
+- **Cálculo de Prioridad**: Genera un puntaje de riesgo cardiovascular (0–100) basado en parámetros clínicos y factores de riesgo.
+- **Detección de Pacientes Perdidos**: Identifica pacientes con brechas en la continuidad del cuidado:
+  - Sin control por más de 180 días
+  - Sin retiro de medicamentos por más de 90 días
+  - Exámenes vencidos (>365 días)
+- **Auditoría de KPIs**: Dashboard con:
+  - Métricas de cumplimiento
+  - Distribución de factores de riesgo
+  - Análisis del puntaje de riesgo
+- **Backend FastAPI**: API REST con tres endpoints: (`/priority`, `/lost`, `/audit`)
+- **Dashboard en React**: Interfaz interactiva con tablas, tarjetas KPI y visualización de datos.
 
-## Architecture
+## Arquitectura
 
 ```
 HackathonSaludIA/
@@ -36,70 +39,63 @@ HackathonSaludIA/
     └── patients_data.csv   # Sample patient records
 ```
 
-## Priority Scoring Algorithm
+## Algoritmo de Puntaje de Prioridad
 
-The system uses a rule-based scoring algorithm that considers:
+El sistema utiliza un algoritmo basado en reglas que considera:
+- **Edad** (0–15 pts) — mayor edad, mayor puntuación
+- **Presión arterial** (0–20 pts) — ≥160/100 obtiene puntaje máximo
+- **Colesterol/LDL** (0–15 pts) — colesterol ≥240 o LDL ≥160
+- **Glucosa** (0–15 pts) — indicadores de diabetes (≥200)
+- **IMC** (0–10 pts) — sobrepeso y obesidad
+- **Factores de riesgo** (0–25 pts) — HTA, DM2, tabaquismo
+- **Eventos previos** (0–15 pts) — IAM o ACV
+- **Adherencia a medicamentos** (0–10 pts) — baja adherencia penaliza
+Puntaje máximo: 100 puntos
 
-- **Age** (0-15 points): Higher scores for older patients (75+, 65-74, 55-64)
-- **Blood Pressure** (0-20 points): Systolic ≥160 or Diastolic ≥100 gets maximum points
-- **Cholesterol/LDL** (0-15 points): High cholesterol (≥240) or LDL (≥160)
-- **Glucose** (0-15 points): Diabetes indicators (≥200)
-- **BMI** (0-10 points): Obesity levels (≥35, ≥30, ≥25)
-- **Risk Factors** (0-25 points): Diabetes, Hypertension, Smoking
-- **Previous Events** (0-15 points): Prior MI or Stroke
-- **Medication Compliance** (0-10 points): Low/Medium compliance penalty
+## Instalación y Configuración
 
-Maximum score: **100 points**
-
-## Installation & Setup
-
-### Prerequisites
+### Requisitos Previos
 - Python 3.8+
 - Node.js 14+
 - npm or yarn
 
 ### Backend Setup
 
-1. Navigate to backend directory:
+1. Ir a la carpeta backend:
 ```bash
 cd backend
 ```
-
-2. Create virtual environment (recommended):
+2. Crear entorno virtual:
 ```bash
 python -m venv venv
 venv\Scripts\activate
 ```
-
-3. Install dependencies:
+3. Instalar dependencias:
 ```bash
 pip install -r requirements.txt
 ```
 
 ### Frontend Setup
 
-1. Navigate to frontend directory:
+1. Ir a la carpeta frontend:
 ```bash
 cd frontend
 ```
-
-2. Install dependencies:
+2. Instalar dependencias:
 ```bash
 npm install
 ```
-
-### Generate Dummy Data
+### Generar Datos Dummy
 
 ```bash
 cd ..
 python data\generate_data.py
 ```
+Esto genera 100 registros de pacientes con datos cardiovasculares realistas.
 
-This generates 100 patient records with realistic cardiovascular data.
+## Ejecutar la Aplicación
 
-## Running the Application
-
-### Start Backend Server
+### Iniciar Backend
 
 ```bash
 cd backend
@@ -109,25 +105,24 @@ uvicorn main:app --reload #Run FastAPI with Uvicorn:
 python main.py
 ```
 
-Backend will run at: `http://localhost:8000`
+Backend disponible en: `http://localhost:8000`
 
-API Documentation (Swagger): `http://localhost:8000/docs`
+Documentación Swagger: `http://localhost:8000/docs`
 
-### Start Frontend Dashboard
-
-In a new terminal:
+### Iniciar Frontend
+En otra terminal:
 
 ```bash
 cd frontend
 npm start
 ```
 
-Frontend will run at: `http://localhost:3000`
+Dashboard en: `http://localhost:3000`
 
-## API Endpoints
+## Endpoints de la API
 
 ### GET /priority
-Returns patients sorted by cardiovascular risk score (highest priority first).
+Retorna pacientes ordenados por puntaje de riesgo cardiovascular.
 
 **Response:**
 ```json
@@ -150,7 +145,7 @@ Returns patients sorted by cardiovascular risk score (highest priority first).
 ```
 
 ### GET /lost
-Returns patients lost to follow-up with gap details.
+Identifica pacientes “perdidos” con detalles de brechas.
 
 **Response:**
 ```json
@@ -179,7 +174,7 @@ Returns patients lost to follow-up with gap details.
 ```
 
 ### GET /audit
-Returns comprehensive audit KPIs.
+Devuelve KPIs de auditoría cardiovascular.
 
 **Response:**
 ```json
@@ -212,32 +207,32 @@ Returns comprehensive audit KPIs.
 }
 ```
 
-## Dashboard Features
+## Características del Dashboard
 
-### KPI Cards
-- **Total Patients**: Overall patient count
-- **High Risk**: Patients with score >70
-- **Lost Patients**: Patients with care gaps
-- **Average Risk Score**: Mean priority score
+### Tarjetas KPI
+- Total de pacientes, contador de pacientes en total.
+- Alto riesgo (>70 su puntaje)
+- Pacientes perdidos
+- Promedio puntaje de riesgo
 
-### Priority Patients Table
-- Sorted by risk score (highest first)
-- Shows clinical parameters, risk factors, compliance
-- Color-coded risk levels (High/Medium/Low)
+### Tabla de Prioridad
+- Ordenada por riesgo (altos primeros)
+- Colores según nivel (alto/medio/bajo)
+- Factores clínicos y adherencia
+- - Se muestra los factores de riesgo
 
-### Lost Patients Table
-- Lists patients with care gaps
-- Highlights overdue metrics in red
-- Shows specific reasons for being "lost"
-- Critical patients (3+ gaps) highlighted
+### Tabla de Pacientes Perdidos
+- Lista los pacientes con brechas específicas
+- Destaca métricas vencidas en rojo
+- Marca pacientes con múltiples brechas
 
-### Audit KPIs
-- Compliance metrics (control visits, medication, exams)
-- Risk factor distribution
-- Previous cardiovascular events
-- Risk score distribution
+### KPIs de Auditoría
+- Cumplimiento de controles
+- Retiro de medicamentos
+- Exámenes realizados
+- Distribución de factores de riesgo
 
-## Technology Stack
+## Tecnologías Utilizadas
 
 **Backend:**
 - FastAPI 0.104.1
@@ -247,26 +242,24 @@ Returns comprehensive audit KPIs.
 **Frontend:**
 - React 18.2.0
 - Axios 1.6.0
-- CSS3 (Custom styling)
+- CSS3
 
 **Data:**
 - CSV format
 - Python data generation
 
-## Future Enhancements
-
-- Machine Learning risk prediction models
-- Patient search and filtering
-- Export reports to PDF/Excel
-- Email notifications for high-risk patients
-- Integration with EHR systems
-- Historical trend analysis
-- Mobile-responsive design improvements
+## Mejoras Futuras
+- Modelo ML para predicción de riesgo
+- Filtros avanzados y búsqueda
+- Exportar reportes (PDF/Excel)
+- Alertas a profesionales
+- Integración con sistemas clínicos (EHR)
+- Análisis de tendencias históricas
 
 ## License
 
-MIT License - Built for Hackathon SaludIA
+MIT License – Construido para Hackathon SaludIA
 
 ## Contributors
 
-Built with ❤️ for improving cardiovascular healthcare outcomes
+Desarrollado con ❤️ para mejorar los resultados en salud cardiovascular.
