@@ -67,8 +67,19 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>🫀 CardioHealth Monitoring System</h1>
-        <p className="subtitle">Cardiovascular Patient Management Dashboard</p>
+        <div className="header-content">
+          <div className="header-title">
+            <h1>
+              <img
+                src={`${process.env.PUBLIC_URL}/heart2.png`}
+                alt="heart icon"
+                className="header-icon-inline"
+              />
+              CardioHealth Monitoring System
+            </h1>
+            <p className="subtitle">Cardiovascular Patient Management Dashboard</p>
+          </div>
+        </div>
       </header>
 
       {auditData && (
